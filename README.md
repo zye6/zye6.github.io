@@ -78,3 +78,4 @@ Build production output:
 ```bash
 hugo --minify
 ```
+
