@@ -1,4 +1,4 @@
-# tim.y
+# tim.y blog
 
 > where old memories meet new adventures.
 
