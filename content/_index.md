@@ -2,6 +2,6 @@
 title = 'Home'
 +++
 
-Welcome to my blog.
+Welcome to my blog. 
 
-will be back..
+> where old memories meet new adventures.
