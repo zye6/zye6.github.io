@@ -1,0 +1,19 @@
+baseURL = '/'
+languageCode = 'en-us'
+title = "tim.y blog"
+theme = "PaperMod"
+relativeURLs = true
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+  description = 'Personal blog built with Hugo and PaperMod'
+  author = "Tim"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  defaultTheme = "auto"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
