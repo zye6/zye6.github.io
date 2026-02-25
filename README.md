@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 # zye6.github.io
-=======
+
 # Hugo + PaperMod + GitHub Pages
 
 This is a beginner-friendly **Hugo** blog using the **PaperMod** theme, deployed with GitHub Actions.
@@ -78,4 +78,3 @@ Build production output:
 ```bash
 hugo --minify
 ```
->>>>>>> 5f8879e (initial commit)
