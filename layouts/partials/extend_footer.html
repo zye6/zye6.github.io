@@ -1,50 +1,68 @@
+<style>
+  #lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto 4px;
+    width: 32px;
+    height: 28px;
+  }
+
+  #lang-toggle svg {
+    width: 24px;
+    height: 18px;
+  }
+
+  #lang-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--entry);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  #lang-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
 <script>
   (function () {
-    function registerCoreTranslationTargets() {
-      const themeToggle = document.getElementById("theme-toggle");
-      if (themeToggle) {
-        themeToggle.setAttribute("data-i18n-aria-label", "toggle_theme");
-        themeToggle.setAttribute("data-i18n-title", "toggle_theme");
+    let toastTimer = null;
+
+    function showToast(message) {
+      let toast = document.getElementById("lang-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "lang-toast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
+        document.body.appendChild(toast);
       }
 
-      const topLink = document.querySelector(".top-link");
-      if (topLink) {
-        topLink.setAttribute("data-i18n-aria-label", "go_top");
-        topLink.setAttribute("data-i18n-title", "go_top");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      if (toastTimer) {
+        clearTimeout(toastTimer);
       }
 
-      document.querySelectorAll("#menu a span").forEach(function (node) {
-        if (node.textContent.trim() === "Home") {
-          node.setAttribute("data-i18n", "nav_home");
-        }
-      });
-
-      const homeWelcome = document.querySelector(".post-content > p:first-of-type");
-      if (homeWelcome && homeWelcome.textContent.trim() === "Welcome to my blog.") {
-        homeWelcome.setAttribute("data-i18n", "home_welcome");
-      }
-
-      const homeTagline = document.querySelector(".post-content blockquote p");
-      if (homeTagline && homeTagline.textContent.trim() === "where old memories meet new adventures.") {
-        homeTagline.setAttribute("data-i18n", "home_tagline");
-      }
+      toastTimer = setTimeout(function () {
+        toast.classList.remove("show");
+      }, 1800);
     }
 
-    function applyDataI18n() {
-      document.querySelectorAll("[data-i18n]").forEach(function (node) {
-        node.textContent = window.getText(node.getAttribute("data-i18n"));
-      });
-
-      document.querySelectorAll("[data-i18n-title]").forEach(function (node) {
-        node.setAttribute("title", window.getText(node.getAttribute("data-i18n-title")));
-      });
-
-      document.querySelectorAll("[data-i18n-aria-label]").forEach(function (node) {
-        node.setAttribute("aria-label", window.getText(node.getAttribute("data-i18n-aria-label")));
-      });
-    }
-
-    function ensureLangToggleButton() {
+    function ensureLangIconButton() {
       if (document.getElementById("lang-toggle")) return;
 
       const container = document.querySelector(".logo-switches");
@@ -53,46 +71,21 @@
       const button = document.createElement("button");
       button.id = "lang-toggle";
       button.type = "button";
-      button.setAttribute("aria-label", window.getText("lang_toggle_title"));
-      button.setAttribute("title", window.getText("lang_toggle_title"));
+      button.setAttribute("aria-label", "Language");
+      button.setAttribute("title", "Language");
       button.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg><span id="lang-toggle-label"></span>';
-
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>';
       button.addEventListener("click", function () {
-        const next = window.getPreferredLang() === "en" ? "zh-CN" : "en";
-        window.setPreferredLang(next);
+        showToast("Translation coming soon");
       });
 
       if (document.getElementById("theme-toggle")) {
-        const themeToggle = document.getElementById("theme-toggle");
-        themeToggle.insertAdjacentElement("afterend", button);
+        document.getElementById("theme-toggle").insertAdjacentElement("afterend", button);
       } else {
         container.appendChild(button);
       }
     }
 
-    function updateLangToggleLabel() {
-      const label = document.getElementById("lang-toggle-label");
-      const button = document.getElementById("lang-toggle");
-      if (!label || !button) return;
-
-      label.textContent = window.getText("lang_toggle_label");
-      button.setAttribute("aria-label", window.getText("lang_toggle_title"));
-      button.setAttribute("title", window.getText("lang_toggle_title"));
-    }
-
-    function applyAllTranslations() {
-      applyDataI18n();
-      updateLangToggleLabel();
-    }
-
-    function initI18n() {
-      registerCoreTranslationTargets();
-      ensureLangToggleButton();
-      applyAllTranslations();
-    }
-
-    document.addEventListener("DOMContentLoaded", initI18n);
-    document.addEventListener("i18n:change", applyAllTranslations);
+    document.addEventListener("DOMContentLoaded", ensureLangIconButton);
   })();
 </script>
