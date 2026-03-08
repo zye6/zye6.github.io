@@ -1,0 +1,23 @@
+.first-entry {
+    min-height: 0;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 0.9rem 0.8rem;
+}
+
+.post-entry {
+    margin-bottom: 0.65rem;
+    padding: 0.7rem 0.9rem 0.75rem;
+}
+
+@media screen and (max-width: 768px) {
+    .first-entry {
+        min-height: 0;
+        margin-bottom: 0.6rem;
+        padding: 0.65rem 0.8rem 0.7rem;
+    }
+
+    .post-entry {
+        margin-bottom: 0.55rem;
+        padding: 0.6rem 0.8rem 0.65rem;
+    }
+}
