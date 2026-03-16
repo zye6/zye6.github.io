@@ -2,7 +2,7 @@
 title = "LNMP 环境下为网站启用 SSL 证书"
 slug = "lnmp-ssl"
 date = 2026-03-08T00:00:00-05:00
-readingTime = 3
+readingTime = 1
 +++
 
 {{< archive-note year="2022" >}}
