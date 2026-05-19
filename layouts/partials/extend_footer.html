@@ -15,6 +15,7 @@
     text-align: left;
   }
 
+  #running-link,
   #lang-toggle {
     display: inline-flex;
     align-items: center;
@@ -24,9 +25,35 @@
     height: 28px;
   }
 
+  #menu #running-link {
+    margin: 0;
+    width: auto;
+    height: var(--header-height);
+    font-size: 20px;
+    line-height: var(--header-height);
+  }
+
+  #menu #running-link span {
+    display: inline-block;
+    transform: translateY(-1px) scaleX(-1);
+  }
+
+  #running-link:hover {
+    opacity: 0.8;
+  }
+
+  #running-link svg,
   #lang-toggle svg {
     width: 24px;
     height: 18px;
+  }
+
+  .logo #running-link svg {
+    display: block;
+    margin: 0;
+    border-radius: 0;
+    pointer-events: none;
+    transform: none;
   }
 
   #lang-toast {
@@ -95,13 +122,42 @@
         showToast("Translation coming soon");
       });
 
-      if (document.getElementById("theme-toggle")) {
+      const runningLink = document.querySelector(".logo-switches #running-link");
+      if (runningLink) {
+        runningLink.insertAdjacentElement("afterend", button);
+      } else if (document.getElementById("theme-toggle")) {
         document.getElementById("theme-toggle").insertAdjacentElement("afterend", button);
       } else {
         container.appendChild(button);
       }
     }
 
-    document.addEventListener("DOMContentLoaded", ensureLangIconButton);
+    function ensureRunningIconLink() {
+      if (document.getElementById("running-link")) return;
+
+      const link = document.createElement("a");
+      link.id = "running-link";
+      link.href = "https://zye6.github.io/running/";
+      link.setAttribute("aria-label", "Running");
+      link.setAttribute("title", "Running");
+      link.innerHTML = '<span aria-hidden="true">&#x1F3C3;</span>';
+
+      const menu = document.getElementById("menu");
+      if (menu) {
+        const item = document.createElement("li");
+        item.appendChild(link);
+        menu.appendChild(item);
+      } else {
+        const container = document.querySelector(".logo-switches");
+        if (container) {
+          container.appendChild(link);
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      ensureRunningIconLink();
+      ensureLangIconButton();
+    });
   })();
 </script>
