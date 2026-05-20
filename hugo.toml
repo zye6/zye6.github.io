@@ -1,6 +1,6 @@
 baseURL = '/'
 languageCode = 'en-us'
-title = "tim.ye blog"
+title = "tim.ye's blog"
 theme = "PaperMod"
 relativeURLs = true
 disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
