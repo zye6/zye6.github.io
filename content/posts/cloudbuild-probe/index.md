@@ -1,5 +1,5 @@
 +++
-title = "GCP - 使用Cloud Build与Spring Boot 的健康探针实现滚动部署"
+title = "GCP - 使用Cloud Build与Spring Boot的健康探针实现滚动部署"
 slug = "cloudbuild-probe"
 date = 2026-04-10T00:00:00-04:00
 summary = "这篇博客介绍了如何在GCP上使用Google的CI/CD服务 Cloud Build, 配合相应的 Spring Boot k8s 健康探针, 实现 GCP GKE 的滚动部署."
