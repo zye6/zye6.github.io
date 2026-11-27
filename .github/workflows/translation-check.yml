@@ -1,0 +1,18 @@
+name: Translation check
+
+on:
+  pull_request:
+    paths:
+      - "content/**"
+      - "scripts/check_translation.py"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: English translations keep the Chinese layout and are not stale
+        run: python3 scripts/check_translation.py

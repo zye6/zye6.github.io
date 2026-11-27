@@ -1,9 +1,21 @@
 baseURL = '/'
-languageCode = 'en-us'
 title = "tim.ye's blog"
 theme = "PaperMod"
 relativeURLs = true
 disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+# Chinese stays at the site root so existing URLs keep working; English lives under /en-us/.
+defaultContentLanguage = "zh-cn"
+
+[languages]
+  [languages.zh-cn]
+    languageName = "中文"
+    languageCode = "zh-CN"
+    weight = 1
+  [languages.en-us]
+    languageName = "English"
+    languageCode = "en-US"
+    weight = 2
 
 [permalinks]
   posts = "/:year/:slug/"
@@ -16,6 +28,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
   defaultTheme = "auto"
+  disableLangToggle = true # replaced by the A/文 button in extend_footer.html
 
   [params.homeInfoParams]
     Title = "Welcome to my blog."

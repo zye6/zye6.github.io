@@ -1,0 +1,4 @@
+{{- /* Replaces PaperMod's "Translations:" list. AI-translated pages get a one-line note linking to the original. */ -}}
+{{- if .Params.translation }}
+{{- range first 1 .Translations }}&nbsp;·&nbsp;<span class="ai-translation-note">{{ i18n "ai_translated" }} · <a href="{{ .Permalink }}" lang="{{ .Language.LanguageCode }}" hreflang="{{ .Language.LanguageCode }}">{{ i18n "original_link" }}</a></span>{{ end }}
+{{- end }}
