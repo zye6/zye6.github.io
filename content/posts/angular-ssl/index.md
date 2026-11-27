@@ -2,13 +2,13 @@
 title = "如何配置Angular项目访问本地HTTPS"
 slug = "angular-local-https"
 date = 2026-04-10T00:00:00-04:00
-summary = "在开发过程中，难免会遇到需要通过 https 进行安全通信的情况。例如，使用第三方的登入验证（大部分的登录验证都需要 https）。"
+summary = "在开发过程中，难免会遇到需要通过 HTTPS 进行安全通信的情况。例如，使用第三方的登录验证（大部分的登录验证都需要 HTTPS）。"
 readingTime = 1
 +++
 
 {{< archive-note year="2022" >}}
 
-在开发过程中，难免会遇到需要通过 https 进行安全通信的情况。例如，使用第三方的登入验证（大部分的登录验证都需要 https）。所以为了满足这个需求，在本地开发测试的时候，也需要使用 https。这篇文章主要是想简单记录一下，如何配置 Angular 使用 Local SSL 的过程。
+在开发过程中，难免会遇到需要通过 HTTPS 进行安全通信的情况。例如，使用第三方的登录验证（大部分的登录验证都需要 HTTPS）。所以为了满足这个需求，在本地开发测试的时候，也需要使用 HTTPS。这篇文章主要是想简单记录一下配置 Angular 使用本地 SSL 证书的过程。
 
 ## 配置方法1
 
@@ -23,11 +23,11 @@ readingTime = 1
 
 ![https-error-page](https-error-page.png)
 
-这个错误是因为 Angular 生成的 SSL 证书是自签名证书，并不被浏览器承认。我们可以通过安装 SSL 证书来解决这个问题，因为我并没有使用这个配置方法，所以请参考[这篇文章](https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/)，里面详细介绍了如何安装 SSL 证书。
+这个错误是因为 Angular 生成的 SSL 证书是自签名证书，不受浏览器信任。我们可以通过安装 SSL 证书来解决这个问题，因为我并没有使用这个配置方法，所以请参考[这篇文章](https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/)，里面详细介绍了如何安装 SSL 证书。
 
 ## 配置方法2
 
-**你可以先创造一个 SSL 证书，然后告诉 Angular 使用你创造的证书。**
+**你可以先创建一个 SSL 证书，然后告诉 Angular 使用你创建的证书。**
 
 ### 1. 生成 SSL 证书并安装
 
@@ -35,11 +35,11 @@ readingTime = 1
 
 [GitHub - A bash script for generating trusted self-signed SSL certs for local development on your Mac](https://github.com/kingkool68/generate-ssl-certs-for-local-development)
 
-这个仓库帮你生成 SSL 证书，在生成证书后，帮你安装证书到你的电脑。根据仓库的文档，运行脚本：
+这个仓库里的脚本会帮你生成 SSL 证书，并把根证书添加到 Mac 的钥匙串（Keychain）里，让系统信任你的证书。根据仓库的文档，运行脚本：
 
 ![generate-ssl-cert](generate-ssl-cert.png)
 
-- 脚本会需要系统密码
+- 脚本会要求输入系统密码，用于把根证书添加到钥匙串
 - 在输入系统密码后，下一个需要的密码是为了生成证书，这个密码可以随便输入，只要每次输入的时候都是一样的密码就没问题
 
 等脚本完成后，在仓库目录下会生成一个 `your-certs` 的文件夹：
@@ -55,13 +55,13 @@ readingTime = 1
 
 ![angular-ssl-folder](angular-ssl-folder.png)
 
-然后在 `angular.json` 里面，告诉 server 我们需要使用 SSL，并给予密匙和证书的路径：
+然后在 `angular.json` 里面，告诉 server 我们需要使用 SSL，并指定密钥和证书的路径：
 
 ![angular-json-config](angular-json-config.png)
 
 ### 3. 验证 HTTPS
 
-完成上述后，我们就可以在本地使用 https 了！
+完成上述步骤后，我们就可以在本地使用 HTTPS 了！
 
 ![https-work](https-work.png)
 

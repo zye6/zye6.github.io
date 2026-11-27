@@ -2,6 +2,8 @@
 
 > where old memories meet new adventures.
 
-built with Hugo, deploy on GitHub Pages
+Built with Hugo, deployed on GitHub Pages: [zye6.github.io](https://zye6.github.io)
 
--> [tim.ye's blog](https://zye6.github.io)
+## English translations
+
+Posts are written in Chinese and translated into English by AI.

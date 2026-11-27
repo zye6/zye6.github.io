@@ -1,0 +1,19 @@
+- id: archive_note
+  translation: "本文最初于 {{ .Year }} 年发布在{{ .Site }}，现迁移至此。"
+- id: archive_site_default
+  translation: "已停用的个人网站"
+# PaperMod strings, kept in English as before. The theme ships them in en.yaml/zh.yaml, which Hugo doesn't use for the zh-cn/en-us keys.
+- id: prev_page
+  translation: "Prev"
+- id: next_page
+  translation: "Next"
+- id: read_time
+  translation:
+    one: "1 min"
+    other: "{{ .Count }} min"
+- id: home
+  translation: "Home"
+- id: code_copy
+  translation: "copy"
+- id: code_copied
+  translation: "copied!"

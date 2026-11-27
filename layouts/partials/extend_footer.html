@@ -38,6 +38,26 @@
     transform: translateY(-1px) scaleX(-1);
   }
 
+  #lang-toggle {
+    width: auto;
+    gap: 3px;
+    padding: 0 4px;
+    color: inherit;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  #lang-toggle[aria-disabled="true"] {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .ai-translation-note a {
+    text-decoration: underline;
+  }
+
   #running-link:hover {
     opacity: 0.8;
   }
@@ -111,16 +131,36 @@
       const container = document.querySelector(".logo-switches");
       if (!container) return;
 
-      const button = document.createElement("button");
+      // Other-language version of this page, from PaperMod's per-page <link rel="alternate" hreflang> tags
+      // (this footer is partialCached, so it can't use .Translations). None until a translation is merged.
+      const names = { "en-us": "English (en-US)", "zh-cn": "中文 (zh-CN)" };
+      const short = { "en-us": "EN", "zh-cn": "中文" };
+      const alt = document.querySelector('link[rel="alternate"][hreflang]:not([hreflang="' + document.documentElement.lang + '"])');
+      const target = alt && { href: alt.href, lang: alt.hreflang };
+      // Untranslated pages are always Chinese originals, so the missing language is English.
+      const dest = target ? target.lang : "en-us";
+      const label = target ? names[dest] || dest : "Translation coming soon";
+
+      // Lucide "languages" icon (A / 文), ISC license.
+      const icon =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>';
+
+      const button = document.createElement(target ? "a" : "button");
       button.id = "lang-toggle";
-      button.type = "button";
-      button.setAttribute("aria-label", "Language");
-      button.setAttribute("title", "Language");
-      button.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>';
-      button.addEventListener("click", function () {
-        showToast("Translation coming soon");
-      });
+      // Visible destination label (EN / 中文) is the accessible name; the full name or "coming soon" is the tooltip.
+      button.setAttribute("title", label);
+      button.innerHTML = icon + '<span lang="' + dest + '">' + (short[dest] || dest) + "</span>";
+      if (target) {
+        button.href = target.href;
+        button.hreflang = target.lang;
+      } else {
+        // aria-disabled (not disabled) keeps the tooltip and keyboard focus; tap shows the toast on touch screens.
+        button.type = "button";
+        button.setAttribute("aria-disabled", "true");
+        button.addEventListener("click", function () {
+          showToast(label);
+        });
+      }
 
       const runningLink = document.querySelector(".logo-switches #running-link");
       if (runningLink) {

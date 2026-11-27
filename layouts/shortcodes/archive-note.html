@@ -1,3 +1,5 @@
+{{- $site := i18n "archive_site_default" }}
+{{- with .Get "site" }}{{ $site = printf " <em>%s</em>" . }}{{ end }}
 <div class="archive-note">
-  <p>本文最初于 {{ .Get "year" }} 年发布在{{ with .Get "site" }} <em>{{ . }}</em>{{ else }}已停用的个人网站{{ end }}，现迁移至此。</p>
+  <p>{{ i18n "archive_note" (dict "Year" (.Get "year") "Site" $site) | safeHTML }}</p>
 </div>
